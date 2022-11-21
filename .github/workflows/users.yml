@@ -1,4 +1,4 @@
-iname: Manage Users
+name: Manage Users
 on:
   push:
     branches: [ main ]

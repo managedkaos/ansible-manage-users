@@ -4,6 +4,8 @@ Ansible playbook and role to manage users and their public SSH keys.
 ## Configure GitHub
 
 _Coming soon..._
+1. Add an environment variable with the private key for the account that will connect to the server.  var should be named `SSH_KEY`.
+2. Update `ansible_user=ec2-user` in `./inventory.txt` with the user name. (TODO: Use a variable for this?)
 
 ## Configure Your Jump Host Account
 

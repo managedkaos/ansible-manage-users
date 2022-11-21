@@ -1,0 +1,18 @@
+iname: Manage Users
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Ansible Playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: default.yml
+          directory: ./
+          key: ${{secrets.SSH_KEY}}
+

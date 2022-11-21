@@ -1,0 +1,6 @@
+---
+- hosts: staging
+  gather_facts: no
+  roles:
+      - role: users         # Create user accounts and SSH keys
+        tags: users

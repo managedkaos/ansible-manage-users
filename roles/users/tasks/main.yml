@@ -1,0 +1,41 @@
+---
+- name: User group 'wheel' must be present
+  group:
+    name: wheel
+    state: present
+
+- name: Allow 'wheel' group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%wheel'
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
+
+- name: Create a user for each public key file
+  user:
+    name: "{{ item | basename }}"
+    shell: /bin/bash
+    state: present
+    groups: 'wheel'
+    append: yes
+  with_fileglob:
+    - "{{ playbook_dir }}/user_keys/*"
+  tags: users
+
+- name: Add an authorized key for each user
+  authorized_key:
+    user: "{{ item | basename }}"
+    state: present
+    key: "{{ lookup('file', '{{ item }}') }}"
+  with_fileglob:
+    - "{{ playbook_dir }}/user_keys/*"
+  when: ansible_check_mode == False
+  tags: keys
+
+- name: Remove any users that are no longer valid
+  user:
+    name: "{{ item | basename }}"
+    state: absent
+  with_fileglob:
+    - "{{ playbook_dir }}/user_keys/removed/*"

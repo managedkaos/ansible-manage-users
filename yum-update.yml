@@ -1,0 +1,7 @@
+---
+- hosts: staging
+  gather_facts: yes
+  roles:
+      - role: yum-update
+        tags: yum
+

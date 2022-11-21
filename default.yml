@@ -1,5 +1,5 @@
 ---
-- hosts: staging
+- hosts: test
   gather_facts: no
   roles:
       - role: users         # Create user accounts and SSH keys
